@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parte 1 - Introdução</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <script>
+      //aqui adicionamos o código JavaScript
+      //   console.log(canvas);
+      //   const ctx = canvas.getContext("2d");
+      //   console.log(ctx);
+
+      // para desenhar o fundo
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "lightgray";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      //para desenhar retangulos
+      //   ctx.fillStyle = "red";
+      //   ctx.fillRect(0, 0, 100, 100);
+
+      //   ctx.strokeStyle = "green";
+      //   ctx.lineWidth = 5;
+      //   ctx.strokeRect(200, 100, 150, 200);
+
+      //   // para desenhar a linha
+      //   ctx.lineWidth = 5;
+      //   ctx.strokeStyle = "blue";
+      //   ctx.beginPath();
+      //   ctx.moveTo(100, 100);
+      //   ctx.lineTo(200, 200);
+      //   ctx.stroke();
+
+      //   // para desenhar um quadrado
+      //   ctx.lineWidth = 3;
+      //   ctx.fillStyle = "lightgreen";
+      //   ctx.strokeStyle = "green";
+      //   ctx.beginPath();
+      //   ctx.moveTo(300, 300);
+      //   ctx.lineTo(300, 400);
+      //   ctx.lineTo(400, 400);
+      //   ctx.lineTo(400, 300);
+      //   ctx.closePath();
+      //   ctx.stroke();
+      //   ctx.fill();
+
+      //   // para desenhar um círculo
+      //   ctx.lineWidth = 5;
+      //   ctx.strokeStyle = "green";
+      //   ctx.beginPath();
+      //   ctx.arc(400, 400, 50, 0, Math.PI * 2);
+      //   ctx.stroke();
+
+      //   // para desenhar um arco
+      //   ctx.lineWidth = 4;
+      //   ctx.strokeStyle = "blue";
+      //   ctx.beginPath();
+      ////* 0.75 para desenhar um circulo apenas até 75%
+      //   ctx.arc(400, 400, 60, 0, Math.PI * 2 * 0.75);
+      //   ctx.stroke();
+
+      //   // configuração do texto
+
+      //   ctx.font = "60px Arial";
+      //   ctx.fillStyle = "black";
+
+      //   // formas de desenhar o texto
+      //   ctx.fillText("hello world", 10, 350);
+      //   ctx.strokeText("hello world", 10, 400);
+
+      //   ctx.strokeStyle = "red";
+      //   ctx.lineWidth = 5;
+      //   ctx.moveTo(canvas.width / 2, 0);
+      //   ctx.lineTo(canvas.width / 2, canvas.height);
+      //   ctx.stroke();
+
+      //   ctx.font = "40px Arial";
+      //   ctx.fillStyle = "black";
+
+      //   const alinhamentos = ["start", "end", "left", "center", "right"];
+
+      //   alinhamentos.forEach((alinhamento, i) => {
+      //     ctx.textAlign = alinhamento;
+      //     ctx.fillText(
+      //       "(" + alinhamento + ") hello, world",
+      //       canvas.width / 2,
+      //       i * 100 + 100,
+      //     );
+      //   });
+
+      //   // nome da cor
+      //   ctx.fillStyle = "red";
+      //   ctx.fillRect(100, 100, 100, 100);
+
+      //   // hexadecimal
+      //   ctx.fillStyle = "#00ff00";
+      //   ctx.fillRect(600, 100, 100, 100);
+
+      //   // RGB
+      //   ctx.fillStyle = `rgb(0, 255, 0)`;
+      //   ctx.fillRect(100, 300, 100, 100);
+
+      //   // RGB com transparência
+      //   ctx.fillStyle = `rgba(0, 0, 255, 0.5)`;
+      //   ctx.fillRect(600, 300, 100, 100);
+
+      //   // Hue, Saturation, Lightness (HSL)
+      //   ctx.fillStyle = "hsl(2, 50%, 30%)";
+      //   ctx.fillRect(100, 500, 100, 100);
+
+      //   //preenchimento com mais de umar cor - grandiente linear - o gradiente inicia e termina nos limites do quadrado, ou seja, o quadrado exibe todo o gradiente.
+      //   const linearGradient = ctx.createLinearGradient(100, 100, 400, 400);
+      //   linearGradient.addColorStop(0, "#ff7777");
+      //   linearGradient.addColorStop(1, "#77ff77");
+
+      //   ctx.fillStyle = linearGradient;
+      //   ctx.fillRect(100, 100, 400, 400);
+
+      // //No próximo exemplo, o gradiente é gerado dentro do quadrado - a diferença é que nessa a alteração de cor é menos suave, pois a area do gradiente é menor
+      //   const linearGradient = ctx.createLinearGradient(200, 200, 300, 300);
+      //   linearGradient.addColorStop(0, "#ff7777");
+      //   linearGradient.addColorStop(1, "#77ff77");
+
+      //   ctx.fillStyle = linearGradient;
+      //   ctx.fillRect(100, 100, 400, 400);
+
+      //   //por fim, temos o gradiente linear gerado ao redor do quadrado:
+      //   const linearGradient = ctx.createLinearGradient(
+      //     0,
+      //     0,
+      //     canvas.width,
+      //     canvas.height,
+      //   );
+      //   linearGradient.addColorStop(0, "#ff7777");
+      //   linearGradient.addColorStop(1, "#77ff77");
+
+      //   ctx.fillStyle = linearGradient;
+      //   ctx.fillRect(100, 100, 400, 400);
+
+      // //outro gradiente que podemos usar é o radial, em que passamos para o método os centros e raios de dois círculos; o gradiente começa na primeira cor (definida no primeiro círculo) e termina na segunda (definida no segundo círculo).
+      //   const radialGradient = ctx.createRadialGradient(
+      //     100,
+      //     100,
+      //     10,
+      //     400,
+      //     400,
+      //     10,
+      //   );
+      //   radialGradient.addColorStop(0, "#ff7777");
+      //   radialGradient.addColorStop(1, "#77ff77");
+
+      //   ctx.fillStyle = radialGradient;
+      //   ctx.fillRect(100, 100, 400, 400);
+
+      //tentando com um circulo
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+
+      const radialGradient = ctx.createRadialGradient(
+        centerX,
+        centerY,
+        0,
+        centerX,
+        centerY,
+        200, //o gradiente só vai até 200 - não vai preencher todo o circulo
+      );
+      radialGradient.addColorStop(0, "#ff6666");
+      radialGradient.addColorStop(1, "#ffff99");
+
+      ctx.fillStyle = radialGradient;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, 300, 0, Math.PI * 2);
+      ctx.fill();
+    </script>
+  </body>
+</html>
