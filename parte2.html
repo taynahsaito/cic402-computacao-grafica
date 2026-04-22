@@ -22,7 +22,7 @@
         ctx.fillRect(0, 0, W, H);
       }
 
-      desenharFundo();
+      // desenharFundo();
 
       //Conversão do sistema de coordenadas
       //VER TABELA DO EVANDRO: Pc(canvas) seria o valor padrão do canvas, o p seria o valor adaptado do sistema de coordenadas. exemplo: no eixo x, no canvas, a extremidade esquerda é 0, no nosso mapeamento será -1.
@@ -82,6 +82,7 @@
         ctx.stroke();
       }
 
+      //representam as vertices de um poligono
       var pontos = [
         { x: 0.25, y: 0.25 },
         { x: 0.25, y: -0.25 },
@@ -89,14 +90,82 @@
         { x: -0.25, y: 0.25 },
       ];
 
-      desenharFundo()
-      const ps = pontos.map(mapearCoordenadas);
-      ps.map(desenharPonto);
-      desenharPoligono(ps);
+      // desenharFundo();
+      // const ps = pontos.map(mapearCoordenadas);
+      // ps.map(desenharPonto);
+      // desenharPoligono(ps);
 
+      function desenhar(pontos, color = FG) {
+        const ps = pontos.map(mapearCoordenadas);
+        ps.map((ponto) => desenharPonto(ponto, color));
+        desenharPoligono(ps, color);
+      }
 
+      //matriz de transformação
+      function transformaPonto({ x, y }, mat) {
+        return {
+          x: x * mat[0][0] + y * mat[0][1] + mat[0][2],
+          y: x * mat[1][0] + y * mat[1][1] + mat[1][2],
+        };
+      }
 
+      function matrizParaEscalar(fx, fy) {
+        return [
+          [fx, 0, 0],
+          [0, fy, 0],
+          [0, 0, 1],
+        ];
+      }
+
+      desenharFundo();
+      desenhar(pontos); //desenha os pontos e as linhas que formam o poligono
+
+      // const matReducao = matrizParaEscalar(0.5, 0.5); //0.5 e 0.5 vai substituir o fx e fy para alterar a escala
+      // const pontosReducao = pontos.map((ponto) =>
+      //   transformaPonto(ponto, matReducao),
+      // );
+      // desenhar(pontosReducao, "red");
+
+      // const matAumento = matrizParaEscalar(1.5, 1.5);
+      // const pontosAumento = pontos.map((ponto) =>
+      //   transformaPonto(ponto, matAumento),
+      // );
+      // desenhar(pontosAumento, "blue");
+
+      //translação
+      function matrizDeTranslacao(tx, ty) {
+        return [
+          [1, 0, tx],
+          [0, 1, ty],
+          [0, 0, 1],
+        ];
+      }
+
+      // const matTranslacao = matrizDeTranslacao(0.25, 0.25);
+      // const pontosTranslacao = pontos.map((ponto) =>
+      //   transformaPonto(ponto, matTranslacao),
+      // );
+      // desenhar(pontosTranslacao, "red");
+
+      //rotação:
+      function matrizDeRotacao(angulo) {
+        const cos = Math.cos(angulo);
+        const sin = Math.sin(angulo);
+
+        return [
+          [cos, -sin, 0],
+          [sin, cos, 0],
+          [0, 0, 1],
+        ];
+      }
       
+      const matRotacao = matrizDeRotacao(Math.PI / 4); //45º, pois pi/4 é equivalente a 45 graus
+      const pontosRotacao = pontos.map((ponto) =>
+        transformaPonto(ponto, matRotacao),
+      );
+      desenhar(pontosRotacao, "red");
+
+
     </script>
   </body>
 </html>
