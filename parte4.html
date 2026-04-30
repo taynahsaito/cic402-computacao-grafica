@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parte 4 - Transformações 3D</title>
+</head>
+
+<body>
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <script src="utils.js"></script>
+    <script>
+        desenharFundo()
+
+        //precisamos fazer a profundidade manual pois estamos usando um contexto 2d, isso se chama projeção de profundidadae
+        const pontos = [
+            { x: -0.5, y: -0.5, z: 1 },
+            { x: 0.5, y: -0.5, z: 1 },
+            { x: 0.5, y: 0.5, z: 1 },
+            { x: -0.5, y: 0.5, z: 1 },
+            { x: -0.5, y: -0.5, z: 2 },
+            { x: 0.5, y: -0.5, z: 2 },
+            { x: 0.5, y: 0.5, z: 2 },
+            { x: -0.5, y: 0.5, z: 2 },
+        ]
+
+        desenhar(pontos)
+
+        //reposicona o poligono
+        function projecao({ x, y, z }) {
+            return {
+                x: x / z,
+                y: y / z,
+                z: z
+            }
+        }
+
+
+        desenhar(pontos.map(projecao))
+
+        function desenharPoligono3D(poligono) {
+            for (const ponto of poligono.pontos)
+                desenharPonto(mapearCoordenadas(projecao(ponto)), poligono.cor)
+
+            for (const aresta of poligono.arestas) {
+                desenharLinha(
+                    mapearCoordenadas(projecao(poligono.pontos[aresta[0]])),
+                    mapearCoordenadas(projecao(poligono.pontos[aresta[1]])),
+                    poligono.cor
+                )
+            }
+        }
+
+
+        desenharFundo()
+
+        //
+        const poligono = {
+            pontos: [
+                { x: -0.5, y: -0.5, z: 1 }, //indice 0
+                { x: 0.5, y: -0.5, z: 1 }, //indice 1
+                { x: 0.5, y: 0.5, z: 1 }, //indice 2
+                { x: -0.5, y: 0.5, z: 1 }, //indice 3
+                { x: -0.5, y: -0.5, z: 2 }, //indice 4
+                { x: 0.5, y: -0.5, z: 2 }, //indice 5
+                { x: 0.5, y: 0.5, z: 2 }, //indice 6
+                { x: -0.5, y: 0.5, z: 2 }, //indice 7
+            ],
+            arestas: [
+                //estamos ligando os pontos, ex: [0,1] = temos uma aresta entre os pontos de indice 0 e 1
+                [0, 1], [1, 2], [2, 3], [3, 0], // face da frente
+                [4, 5], [5, 6], [6, 7], [7, 4], // face do fundo
+                [0, 4], [1, 5], [2, 6], [3, 7], // outras arestas
+            ],
+            cor: FG
+        }
+
+        desenharPoligono3D(poligono)
+
+        function transformaPonto3D({ x, y, z }, m) {
+            return {
+                x: x * m[0][0] + y * m[0][1] + z * m[0][2] + m[0][3],
+                y: x * m[1][0] + y * m[1][1] + z * m[1][2] + m[1][3],
+                z: x * m[2][0] + y * m[2][1] + z * m[2][2] + m[2][3],
+            }
+        }
+
+        function matrizParaEscalar3D(fx, fy, fz) {
+            return [
+                [fx, 0, 0, 0],
+                [0, fy, 0, 0],
+                [0, 0, fz, 0],
+                [0, 0, 0, 1]
+            ]
+        }
+
+        function matrizDeTranslacao3D(tx, ty, tz) {
+            return [
+                [1, 0, 0, tx],
+                [0, 1, 0, ty],
+                [0, 0, 1, tz],
+                [0, 0, 0, 1]
+            ]
+        }
+
+        // //matrizParaEscalar3D(eixo x, eixo y, profundidade)
+        // const mE = matrizParaEscalar3D(1, 1, 1.5)
+        // const poligono2 = {
+        //     pontos: poligono.pontos.map((ponto) => transformaPonto3D(ponto, mE)),
+        //     arestas: poligono.arestas,
+        //     cor: "red"
+        // }
+        // desenharPoligono3D(poligono2)
+
+
+        // const mT = matrizDeTranslacao3D(0.75, 0.75, 0.75)
+        // const poligono3 = {
+        //     pontos: poligono.pontos.map((ponto) => transformaPonto3D(ponto, mT)),
+        //     arestas: poligono.arestas,
+        //     cor: "blue"
+        // }
+        // desenharPoligono3D(poligono3)
+
+
+        //oclusão
+
+        desenharFundo()
+
+        const poligono1 = [
+            { x: -0.25, y: -0.25, z: 1 },
+            { x: 0.75, y: -0.25, z: 1 },
+            { x: 0.75, y: 0.75, z: 1 },
+            { x: -0.25, y: 0.75, z: 1 },
+        ]
+        const projecao1 = poligono1.map(projecao)
+        cor1 = "green"
+
+        const poligono2 = [
+            { x: -0.75, y: -0.75, z: 1.5 },
+            { x: 0.25, y: -0.75, z: 1.5 },
+            { x: 0.25, y: 0.25, z: 1.5 },
+            { x: -0.75, y: 0.25, z: 1.5 },
+        ]
+        const projecao2 = poligono2.map(projecao)
+        cor2 = "blue"
+
+        const RESOLUCAO = 10
+        const celula = 1 / RESOLUCAO
+        const distancia = mapearDistancia(celula)
+
+        desenhaQuadriculado(celula, "darkgray", 2)
+
+        desenhar(projecao1, cor1)
+        desenhar(projecao2, cor2)
+
+        const centros = procuraCentros(celula)
+
+        const rc1 = centros.map(ponto => rayCasting(projecao1, ponto))
+        const rc2 = centros.map(ponto => rayCasting(projecao2, ponto))
+
+        centros.map(mapearCoordenadas).map(ponto => desenharPonto(ponto, "darkgray", 2))
+
+        rc1.filter(ponto => ponto.dentro)
+            .map(mapearCoordenadas)
+            .map(ponto => desenharPonto(ponto, cor1, 2))
+
+        rc2.filter(ponto => ponto.dentro)
+            .map(mapearCoordenadas)
+            .map(ponto => desenharPonto(ponto, cor2, 2))
+
+        
+        const imagem = criarImagem(centros, [rc1, rc2], ["lightgreen", "lightblue"])
+        for (const pixel of imagem) {
+            ponto = mapearCoordenadas({ x: pixel.x, y: pixel.y })
+            cor = pixel.cor
+            desenhaQuadradoPeloCentro(ponto, distancia, cor)
+        }
+
+
+    </script>
+
+</body>
+
+</html>

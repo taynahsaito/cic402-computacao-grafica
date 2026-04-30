@@ -1,0 +1,29 @@
+<canvas id="canvas" width="800" height="800"></canvas>
+<script src="utils.js"></script>
+<script>
+desenharFundo()
+
+var poligono = [
+  {x: -0.5, y: -0.5},
+  {x:  0.5, y: -0.5},
+  {x:  0.0, y:  0.5},
+]
+
+const celula = 0.05
+
+desenhar(poligono)
+desenhaQuadriculado(celula, "gray")
+
+function rayCastingPoligono(pontos){
+  return rayCasting(poligono, pontos)
+}
+
+const centros = procuraCentros(celula).map(rayCastingPoligono)
+centros.map((ponto) => desenharPonto(mapearCoordenadas(ponto), ponto.dentro ? "red" : "gray", 2))
+
+centros
+  .filter(ponto => ponto.dentro)
+  .map(ponto => desenhaQuadradoPeloCentro(mapearCoordenadas(ponto),
+                                   mapearDistancia(celula),
+                                   `rgba(100, 255, 100, 0.5)`))
+</script>
